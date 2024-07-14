@@ -5,7 +5,7 @@ import { AxAIAnthropic, AxAIOpenAI, AxAIAzureOpenAI, AxAICohere, AxAIDeepSeek, A
 import type { AxAI, AxModelConfig, AxFunction, AxSignature } from '@ax-llm/ax';
 
 import { PROVIDER_API_KEYS } from '../config/index.js';
-import { functions as importedFunctions } from '../functions/index.js';
+import { AxCrewFunctions } from '../functions/index.js';
 
 // Define a mapping from provider names to their respective constructors
 const AIConstructors: Record<string, any> = {
@@ -31,8 +31,7 @@ type FunctionMap = {
   [key: string]: AxFunction | { new(state: Record<string, any>): { toFunction: () => AxFunction } };
 };
 
-
-const functions: FunctionMap = importedFunctions;
+const functions: FunctionMap = AxCrewFunctions;
 
 interface AgentConfig {
   name: string;
@@ -98,7 +97,11 @@ const parseAgentConfig = (agentConfigFilePath: string): {crew: AgentConfig[]} =>
  * @throws {Error} Throws an error if the agent configuration is missing, the provider is unsupported,
  * the API key is not found, or the provider key name is not specified in the configuration.
  */
-const getAgentConfigParams = (agentName: string, agentConfigFilePath: string, state: Record<string, any>) => {
+const getAgentConfigParams = (
+  agentName: string, 
+  agentConfigFilePath: string, 
+  state: Record<string, any>
+) => {
   try{
     // Retrieve the parameters for the specified AI agent from a config file in yaml format
     const agentConfig = parseAgentConfig(agentConfigFilePath).crew.find(agent => agent.name === agentName);
