@@ -1,10 +1,10 @@
 import { CurrentDateTime, DaysBetweenDates } from './dateTime.js';
 import { VectorSearch } from './VectorSearch/index.js';
 
-const functions = {
+const AxCrewFunctions = {
   CurrentDateTime,
   DaysBetweenDates,
   VectorSearch
-}
+};
 
-export { functions };
+export { AxCrewFunctions };
