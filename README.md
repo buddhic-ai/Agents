@@ -5,7 +5,7 @@
 This repo simplifies development of [AxLLM](https://axllm.dev) AI Agents by using config to instantiate agents. This means you can write a library of functions, and quickly invoke AI agents to use them using a simple configuration file.
 
 ## Features
-- **Crew Configuration**: Define a crew of agents in a YAML file. (see [agent_config.example.yaml](agent_config.example.yaml))
+- **Crew Configuration**: Define a crew of agents in a YAML file. (see [agent_config.yaml](agent_config.yaml))
 - **State Management**: Share state across agents in a crew, as well as with functions used by those agents.
 - **Task Execution**: Plan and execute tasks using agents in the crew.
 
@@ -22,7 +22,7 @@ Refer to the [.env.example](.env.example) file for the required environment vari
 ## Creating the Crew
 A Crew is a team of agents that work together to achieve a common goal. The configuration file for a crew is a YAML file that defines the agents in the crew, along with their individual configurations.
 
-See [agent_config.example.yaml](agent_config.example.yaml) for an example.
+See [agent_config.yaml](agent_config.yaml) for an example.
 
 To initialize a crew of agents, pass a config file to the `AxCrew` constructor.
 
@@ -31,7 +31,7 @@ To initialize a crew of agents, pass a config file to the `AxCrew` constructor.
 import { AxCrew } from '@amitdeshmukh/ax-crew';
 
 // Create a new instance of AxCrew
-const configFilePath = './agent_config.example.yaml';
+const configFilePath = './agent_config.yaml';
 const crew = new AxCrew(configFilePath);
 ```
 
