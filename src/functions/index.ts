@@ -1,8 +1,10 @@
 import { CurrentDateTime, DaysBetweenDates } from './dateTime.js';
+import { VectorSearch } from './VectorSearch/index.js';
 
 const functions = {
   CurrentDateTime,
-  DaysBetweenDates
+  DaysBetweenDates,
+  VectorSearch
 }
 
 export { functions };

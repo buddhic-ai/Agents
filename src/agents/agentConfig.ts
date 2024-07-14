@@ -28,8 +28,10 @@ type ExtendedAxModelConfig = AxModelConfig & {
 
 // Define a mapping from function names to their respective handlers
 type FunctionMap = {
-  [key: string]: AxFunction | { toFunction: () => AxFunction };
+  [key: string]: AxFunction | { new(state: Record<string, any>): { toFunction: () => AxFunction } };
 };
+
+
 const functions: FunctionMap = importedFunctions;
 
 interface AgentConfig {
@@ -53,6 +55,17 @@ interface Agent {
   signature?: AxSignature;
   functions: AxFunction[];
   subAgentNames: string[];
+}
+
+/**
+ * Type guard to check if a value is a constructor function for a type T.
+ * 
+ * @template T - The type to check the constructor against.
+ * @param {any} func - The value to check.
+ * @returns {boolean} - True if the value is a constructor function for type T, false otherwise.
+ */
+function isConstructor<T>(func: any): func is { new (...args: any[]): T } {
+  return typeof func === 'function' && 'prototype' in func && 'toFunction' in func.prototype;
 }
 
 
@@ -135,7 +148,14 @@ const getAgentConfigParams = (agentName: string, agentConfigFilePath: string, st
         if (!func) {
           console.warn(`Warning: Function ${funcName} not found.`);
           return;
-        }        
+        }
+
+        // Use the type guard to check if the function is a class
+        if (isConstructor<{ toFunction: () => AxFunction }>(func)) {
+          return new func(state).toFunction();
+        }
+
+        // Else the function is a function handler, return it directly
         return func;
       })
       .filter(Boolean);
