@@ -12,8 +12,11 @@ This repo simplifies development of [AxLLM](https://axllm.dev) AI Agents by usin
 ## Getting Started
 
 ### Installation
+To install the package, run the following commands to first login to the GitHub package registry and then install the package.:
+
 ```bash
-npm install @amitdeshmukh/ax-crew
+npm login --scope=@buddhic-ai --registry=https://npm.pkg.github.com
+npm install @buddhic-ai/agents
 ```
 
 ### Environment Setup
