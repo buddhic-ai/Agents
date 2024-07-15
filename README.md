@@ -46,7 +46,7 @@ Functions (aka Tools) are the building blocks of agents. They are used to perfor
 The `FunctionRegistry` is a central place where all the functions that agents can use are registered. This allows for easy access and management of functions across different agents in the crew.
 
 To use the `FunctionRegistry`, you need to either:
-- import and use the built-in functions from the `@amitdeshmukh/ax-crew` package, or
+- import and use the built-in functions from the `@buddhic-ai/agents` package, or
 - bring your own functions before initializing `AxCrew`. 
 
 Here's an example of how to set up the `FunctionRegistry` with built-in functions:
@@ -116,7 +116,7 @@ console.log(Manager.state.getAll()); // { name: 'Crew1', location: 'Earth', plan
 An example of how to complete a task using the agents is shown below. The `Planner` agent is used to plan the task, and the `Manager` agent is used to execute the task.
 
 ```javascript
-import { AxCrew, AxCrewFunctions } from '@amitdeshmukh/ax-crew';
+import { AxCrew, AxCrewFunctions } from '@buddhic-ai/agents';
 
 // Create a new instance of AxCrew
 const crew = new AxCrew('./agent_config.example.yaml', AxCrewFunctions);
