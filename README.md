@@ -22,22 +22,50 @@ npm install @buddhic-ai/agents
 ### Environment Setup
 Refer to the [.env.example](.env.example) file for the required environment variables. These will need to be set in the environment where the agents are run.
 
-## Creating and Using an Agent Crew
+## Usage
+
+### Initializing a Crew
 A Crew is a team of agents that work together to achieve a common goal. The configuration file for a crew is a YAML file that defines the agents in the crew, along with their individual configurations.
 
 See [agent_config.yaml](agent_config.yaml) for an example.
-
-### Initializing a Crew
 
 To initialize a crew of agents, pass a config file to the `AxCrew` constructor.
 
 ```javascript
 // Import the AxCrew class
-import { AxCrew } from '@amitdeshmukh/ax-crew';
+import { AxCrew } from '@buddhic-ai/agents';
 
 // Create a new instance of AxCrew
 const configFilePath = './agent_config.yaml';
 const crew = new AxCrew(configFilePath);
+```
+
+### Function Registry
+Functions (aka Tools) are the building blocks of agents. They are used to perform specific tasks, such as calling external APIs, databases, or other services.
+
+The `FunctionRegistry` is a central place where all the functions that agents can use are registered. This allows for easy access and management of functions across different agents in the crew.
+
+To use the `FunctionRegistry`, you need to either:
+- import and use the built-in functions from the `@amitdeshmukh/ax-crew` package, or
+- bring your own functions before initializing `AxCrew`. 
+
+Here's an example of how to set up the `FunctionRegistry` with built-in functions:
+
+```javascript
+import { AxCrewFunctions } from '@buddhic-ai/agents';
+const crew = new AxCrew(configFilePath, AxCrewFunctions);
+```
+
+if you want to bring your own functions, you can do so by creating a new instance of `FunctionRegistry` and passing it to the `AxCrew` constructor.
+
+```typescript
+import { FunctionRegistryType } from '@buddhic-ai/agents';
+
+const myFunctions: FunctionRegistryType = {
+  GoogleSearch: googleSearchInstance.toFunction()
+};
+
+const crew = new AxCrew(configFilePath, myFunctions);
 ```
 
 ### Adding Agents to the Crew
@@ -48,6 +76,8 @@ Ensure that:
   - agents added in the right order (an error will be thrown if an agent is added before its dependent agents).
 
 For example, the `Manager` agent in the configuration file depends on the `Planner` and `Calculator` agents. So the `Planner` and `Calculator` agents must be added to the crew before the `Manager` agent can be added.
+
+Agents can be configured with any functions from the `FunctionRegistry` available to the crew.
 
 ```javascript
 // Add agents by providing their names
@@ -74,35 +104,52 @@ crew.state.get('name'); // 'Crew1'
 crew.state.getAll(); // { name: 'Crew1', location: 'Earth' }
 ``` 
 
-State can also be set/get by individual agents in the crew. This state is shared with all agents and functions if passed in through an AxFunction class constructor.
+State can also be set/get by individual agents in the crew. This state is shared with all agents. It is also passed to any functions expressed as a class in `FunctionsRegistry`.
 
 ```javascript
 Planner.state.set('plan', 'Fly to Mars'); 
 console.log(Manager.state.getAll()); // { name: 'Crew1', location: 'Earth', plan: 'Fly to Mars' }
 ```
 
-### Completing a task
+## Example Agent task
 
 An example of how to complete a task using the agents is shown below. The `Planner` agent is used to plan the task, and the `Manager` agent is used to execute the task.
 
 ```javascript
+import { AxCrew, AxCrewFunctions } from '@amitdeshmukh/ax-crew';
+
+// Create a new instance of AxCrew
+const crew = new AxCrew('./agent_config.example.yaml', AxCrewFunctions);
+crew.addAgentsToCrew(['Planner', 'Calculator', 'Manager']);
+
+// Get agent instances
+const Planner = crew.agents.get("Planner");
+const Manager = crew.agents.get("Manager");
+
+// User query
 const userQuery = "whats the square root of the number of days between now and Christmas";
 
 console.log(`\n\nQuestion: ${userQuery}`);
 
+// Forward the user query to the agents
 const planResponse = await Planner.forward({ task: userQuery });
 const managerResponse = await Manager.forward({ question: userQuery, plan: planResponse.plan });
 
+// Get and print the plan and answer from the agents
 const plan = planResponse.plan;
 const answer = managerResponse.answer;
 
 console.log(`\n\nPlan: ${plan}`);
 console.log(`\n\nAnswer: ${answer}`);
 ```
+
 ## Publishing the Package
-When publishing new versions of the package, first update the version number in `package.json`. After this, you can publish the package by running 
+When publishing new versions of the package, first update the version number in `package.json`. Make sure that your `NPM_TOKEN` environment variable is correctly set to authenticate with GitHub Packages. (Refer to [.npmrc](.npmrc) for details)
+
+
 ```sh
+# Login to the GitHub package registry if you dont have .npmrc file configured
+# npm login --scope=@buddhic-ai --registry=https://npm.pkg.github.com
 npm run release
 ```
 
-Make sure that your `NPM_TOKEN` environment variable is correctly set to authenticate with GitHub Packages. (Refer to [.npmrc](.npmrc) for details)

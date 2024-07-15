@@ -2,10 +2,10 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 
 import { AxAIAnthropic, AxAIOpenAI, AxAIAzureOpenAI, AxAICohere, AxAIDeepSeek, AxAIGoogleGemini, AxAIGroq, AxAIHuggingFace, AxAIMistral, AxAIOllama, AxAITogether } from '@ax-llm/ax';
-import type { AxAI, AxModelConfig, AxFunction, AxSignature } from '@ax-llm/ax';
+import type { AxModelConfig, AxFunction, AxSignature } from '@ax-llm/ax';
 
 import { PROVIDER_API_KEYS } from '../config/index.js';
-import { AxCrewFunctions } from '../functions/index.js';
+import { FunctionRegistryType } from '../functions/index.js';
 
 // Define a mapping from provider names to their respective constructors
 const AIConstructors: Record<string, any> = {
@@ -31,8 +31,6 @@ type FunctionMap = {
   [key: string]: AxFunction | { new(state: Record<string, any>): { toFunction: () => AxFunction } };
 };
 
-const functions: FunctionMap = AxCrewFunctions;
-
 interface AgentConfig {
   name: string;
   description: string;
@@ -45,15 +43,6 @@ interface AgentConfig {
   options?: Record<string, any>;
   functions?: string[];
   agents?: string[];
-}
-
-interface Agent {
-  ai: AxAI;
-  name: string;
-  description: string;
-  signature?: AxSignature;
-  functions: AxFunction[];
-  subAgentNames: string[];
 }
 
 /**
@@ -92,6 +81,7 @@ const parseAgentConfig = (agentConfigFilePath: string): {crew: AgentConfig[]} =>
  *
  * @param {string} agentName - The identifier for the AI agent to be initialized.
  * @param {string} agentConfigFilePath - The file path to the YAML configuration for the agent.
+ * @param {FunctionRegistryType} functions - The functions available to the agent.
  * @param {Object} state - The state object for the agent.
  * @returns {Object} An object containing the Agents AI instance, its name, description, signature, functions and subAgentList.
  * @throws {Error} Throws an error if the agent configuration is missing, the provider is unsupported,
@@ -99,7 +89,8 @@ const parseAgentConfig = (agentConfigFilePath: string): {crew: AgentConfig[]} =>
  */
 const getAgentConfigParams = (
   agentName: string, 
-  agentConfigFilePath: string, 
+  agentConfigFilePath: string,
+  functions: FunctionRegistryType,
   state: Record<string, any>
 ) => {
   try{
