@@ -19,10 +19,12 @@ npm install @amitdeshmukh/ax-crew
 ### Environment Setup
 Refer to the [.env.example](.env.example) file for the required environment variables. These will need to be set in the environment where the agents are run.
 
-## Creating the Crew
+## Creating and Using an Agent Crew
 A Crew is a team of agents that work together to achieve a common goal. The configuration file for a crew is a YAML file that defines the agents in the crew, along with their individual configurations.
 
 See [agent_config.yaml](agent_config.yaml) for an example.
+
+### Initializing a Crew
 
 To initialize a crew of agents, pass a config file to the `AxCrew` constructor.
 
@@ -35,7 +37,7 @@ const configFilePath = './agent_config.yaml';
 const crew = new AxCrew(configFilePath);
 ```
 
-## Adding Agents to the Crew
+### Adding Agents to the Crew
 You can add a sub-set of available agents from the config file to the crew by passing their names as an array to the `addAgentsToCrew` method.
 
 Ensure that:
@@ -54,7 +56,7 @@ const Planner = agents.get("Planner");
 const Manager = agents.get("Manager");
 ```
 
-## State Management
+### State Management
 
 The `StatefulAxAgent` class in `src/agents/index.js` allows for shared state functionality across agents. Sub-agents can be added to an agent to create complex behaviors. All agents in the crew have access to the shared state. State can also be shared with functions that are passed to the agents. To do this, pass the `state` object as an argument to the function class as shown here https://axllm.dev/guides/functions-1/
 
@@ -76,7 +78,7 @@ Planner.state.set('plan', 'Fly to Mars');
 console.log(Manager.state.getAll()); // { name: 'Crew1', location: 'Earth', plan: 'Fly to Mars' }
 ```
 
-## Completing a task
+### Completing a task
 
 An example of how to complete a task using the agents is shown below. The `Planner` agent is used to plan the task, and the `Manager` agent is used to execute the task.
 
@@ -94,3 +96,10 @@ const answer = managerResponse.answer;
 console.log(`\n\nPlan: ${plan}`);
 console.log(`\n\nAnswer: ${answer}`);
 ```
+## Publishing the Package
+When publishing new versions of the package, first update the version number in `package.json`. After this, you can publish the package by running 
+```sh
+npm run release
+```
+
+Make sure that your `NPM_TOKEN` environment variable is correctly set to authenticate with GitHub Packages. (Refer to [.npmrc](.npmrc) for details)
