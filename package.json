@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@buddhic-ai/agents",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Buddhic AI Agent framework",
   "main": "dist/index.js",
   "engines": {

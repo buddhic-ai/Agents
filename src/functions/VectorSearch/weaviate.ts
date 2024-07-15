@@ -121,7 +121,7 @@ const getQueryContext = async (clientId: string, message: string): Promise<Searc
     // Retrieve relevant context from weaviate
     const result = await collection.query.nearVector(vector, {
       fields: fields,
-      limit: 12,
+      limit: 20,
       returnMetadata: ['distance']
     } as any);
 

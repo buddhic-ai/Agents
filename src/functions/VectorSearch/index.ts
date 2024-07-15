@@ -3,10 +3,10 @@ import { getQueryContext } from "./weaviate.js";
 import { PROVIDER_API_KEYS, DEBUG } from '../../config/index.js';
 
 const ai: AxAI = new AxAI({
-  name: 'cohere',
-  apiKey: PROVIDER_API_KEYS['COHERE_API_KEY'] || '',
+  name: 'google-gemini',
+  apiKey: PROVIDER_API_KEYS['GEMINI_API_KEY'] || '',
   config: {
-    model: 'command-r-plus',
+    model: 'gemini-1.5-flash',
     temperature: 0
   }
 } as AxAIArgs);
