@@ -11,7 +11,7 @@ export const generateEmbeddings = async (chunk: string): Promise<number[]> => {
     transformers = await import('@xenova/transformers');
   }
 
-  const model = 'Snowflake/snowflake-arctic-embed-m-long';
+  const model = 'Xenova/all-MiniLM-L6-v2';
   const getEmbeddings = await transformers.pipeline(
     'feature-extraction',
     model
