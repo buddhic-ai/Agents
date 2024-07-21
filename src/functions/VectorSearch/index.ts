@@ -3,11 +3,11 @@ import { getQueryContext } from "./weaviate.js";
 import { PROVIDER_API_KEYS, DEBUG } from '../../config/index.js';
 
 const ai: AxAI = new AxAI({
-  name: 'groq',
-  apiKey: PROVIDER_API_KEYS['GROQ_API_KEY'] || '',
+  name: 'together',
+  apiKey: PROVIDER_API_KEYS['TOGETHER_API_KEY'] || '',
   config: {
-    model: 'llama3-8b-8192',
-    temperature: 0
+    model: 'NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT',
+    temperature: 0,
   }
 } as AxAIArgs);
 

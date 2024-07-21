@@ -19,6 +19,7 @@ const OPENAI_API_KEY: string = process.env.OPENAI_API_KEY || '';
 const COHERE_API_KEY: string = process.env.COHERE_API_KEY || '';
 const GEMINI_API_KEY: string = process.env.GEMINI_API_KEY || '';
 const GROQ_API_KEY: string = process.env.GROQ_API_KEY || '';
+const TOGETHER_API_KEY: string = process.env.TOGETHER_API_KEY || '';
 
 interface ProviderApiKeys {
   [key: string]: string | undefined;
@@ -28,6 +29,7 @@ const PROVIDER_API_KEYS: ProviderApiKeys = {
   COHERE_API_KEY,
   GEMINI_API_KEY,
   GROQ_API_KEY,
+  TOGETHER_API_KEY,
   OPENAI_API_KEY,
   ANTHROPIC_API_KEY,
 };
