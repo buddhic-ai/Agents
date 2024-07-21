@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@amitdeshmukh/gcp-crypto": "^1.6.0",
+    "@ax-llm/ax": "^9.0.32",
     "@xenova/transformers": "^2.17.2",
     "cryptr": "^6.3.0",
     "dotenv": "^16.4.5",
@@ -21,7 +22,7 @@
     "weaviate-client": "^3.0.9"
   },
   "peerDependencies": {
-    "@ax-llm/ax": "^9.0.23"
+    "@ax-llm/ax": "^9.0.32"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
@@ -29,5 +30,5 @@
     "@types/uuid": "^10.0.0",
     "typescript": "^5.5.3"
   },
-  "license": "All rights reserved"
+  "license": "UNLICENSED"
 }
