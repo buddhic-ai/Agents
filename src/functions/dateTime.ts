@@ -5,8 +5,12 @@ export const CurrentDateTime: AxFunction = {
   description: 'Get the current date and time.',
   parameters: {
     type: 'object',
-    properties: {},
-    required: []
+    properties: {
+      isoFormat: {
+        type: 'boolean',
+        description: 'Return the date and time in ISO format.'
+      }
+    }
   },
   func: () => new Date().toISOString()
 }
