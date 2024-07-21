@@ -3,10 +3,10 @@ crew:
 - name: Planner
   description: Creates a plan to complete a task
   signature: task:string "a task to be completed" -> plan:string "a plan to execute the task based on company policies and documents"
-  provider: anthropic
-  provider_key_name: ANTHROPIC_API_KEY
+  provider: groq
+  provider_key_name: GROQ_API_KEY
   ai:
-    model: claude-3-5-sonnet-20240620
+    model: llama3-70b-8192
     temperature: 0
   options:
     debug: true
