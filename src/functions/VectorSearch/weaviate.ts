@@ -1,10 +1,8 @@
 import weaviate from 'weaviate-client';
 import type { WeaviateClient, Collection, CollectionConfig, WeaviateObject, WeaviateField } from 'weaviate-client';
 import { generateEmbeddings }  from './embeddings.js';
-import { getDecryptedKey, decrypt, buildDecryptedKeysCache } from './crypto.js';
+import { getDecryptedKey, decrypt } from './crypto.js';
 import { WEAVIATE_SCHEME, WEAVIATE_HOST, WEAVIATE_APIKEY } from '../../config/index.js';
-
-await buildDecryptedKeysCache();
 
 const WEAVIATE_INSTANCE_URL: string = `${WEAVIATE_SCHEME}://${WEAVIATE_HOST}`;
 
