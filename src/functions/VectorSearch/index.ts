@@ -3,10 +3,10 @@ import { getQueryContext } from "./weaviate.js";
 import { PROVIDER_API_KEYS, DEBUG } from '../../config/index.js';
 
 const ai: AxAI = new AxAI({
-  name: 'together',
-  apiKey: PROVIDER_API_KEYS['TOGETHER_API_KEY'] || '',
+  name: 'openai',
+  apiKey: PROVIDER_API_KEYS['OPENAI_API_KEY'] || '',
   config: {
-    model: 'NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT',
+    model: 'gpt-4o-mini',
     temperature: 0,
   }
 } as AxAIArgs);

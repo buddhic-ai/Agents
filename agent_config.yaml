@@ -26,10 +26,10 @@ crew:
 - name: Manager
   description: Answers questions about company policies and operations
   signature: question:string "a question from a user about company policies and operations", plan:string "a suggested plan to answer the question" -> answer:string "the answer that includes a short explanation"
-  provider: openai
-  provider_key_name: OPENAI_API_KEY
+  provider: anthropic
+  provider_key_name: ANTHROPIC_API_KEY
   ai:
-    model: gpt-4o-mini
+    model: claude-3-5-sonnet-20240620
     temperature: 0
   options:
     debug: true
