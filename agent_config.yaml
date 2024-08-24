@@ -25,7 +25,7 @@ crew:
 
 - name: Manager
   description: Answers questions about company policies and operations
-  signature: question:string "a question from a user about company policies and operations", plan:string "a suggested plan to answer the question" -> answer:string "the answer that includes a short explanation", references:string "JSON formatted list of references to company documents including a fileName, pageNumbers and url for each reference"
+  signature: question:string "a question from a user about company policies and operations", plan:string "a suggested plan to answer the question" -> answer:string "the answer that includes a short explanation", references:string "JSON formatted list of references to company documents including  fileName, pageNumbers and url for each reference"
   provider: anthropic
   provider_key_name: ANTHROPIC_API_KEY
   ai:

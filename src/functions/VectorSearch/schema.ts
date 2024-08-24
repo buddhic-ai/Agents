@@ -1,4 +1,5 @@
 export interface Reference {
+  fileId: string;
   fileName: string;
   pageNumbers: number[];
   url: string;
@@ -10,6 +11,10 @@ export const schema = {
   "items": {
     "type": "object",
     "properties": {
+      "fileId": {
+        "type": "string",
+        "description": "The unique identifier of the file."
+      },
       "fileName": {
         "type": "string",
         "description": "The name of the file."

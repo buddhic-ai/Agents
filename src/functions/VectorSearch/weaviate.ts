@@ -76,6 +76,7 @@ const getPropertyNames = (classSchema: { properties: any[] }) => {
 }
 
 interface DocumentProperties {
+  fileId?: string;
   filename?: string;
   text?: string;
   items?: string[];
@@ -86,6 +87,7 @@ interface DocumentProperties {
 }
 
 interface SearchResult {
+  fileId?: string;
   filename?: string;
   text?: string;
   items?: string[];
@@ -152,6 +154,7 @@ const getQueryContext = async (clientId: string, message: string): Promise<Searc
     const searchResults: SearchResult[] = context.map((doc): SearchResult => {
       const properties  = doc.properties as DocumentProperties;
       return {
+        fileId: properties?.fileId,
         filename: properties?.filename,
         text: properties?.text,
         items: properties?.items,

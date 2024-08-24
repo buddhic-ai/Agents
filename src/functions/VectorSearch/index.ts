@@ -37,7 +37,7 @@ export class VectorSearch {
 
   combinedReferences(references: Reference[]): Reference[] {
     return references.reduce((acc: Reference[], ref: Reference) => {
-      const existingRef = acc.find((r: Reference) => r.fileName === ref.fileName);
+      const existingRef = acc.find((r: Reference) => r.fileId === ref.fileId);
       if (existingRef) {
         existingRef.pageNumbers = [...new Set([...existingRef.pageNumbers, ...ref.pageNumbers])];
       } else {
@@ -72,16 +72,18 @@ export class VectorSearch {
           // Convert context to a markdown formatted array
           context = context.map(doc => {
             const combinedText = doc.items.length > 0 ? `${doc.text}\n- ${doc.items.join('\n- ')}` : doc.text;
-            return `### ${doc.filename}\n\n- **URL**: ${doc.url}\n- **Page Number**: ${doc.pageNumber}\n- **Text**: ${combinedText}\n`;
+            return `### ${doc.filename}\n\n- **File ID**: ${doc.fileId}\n- **URL**: ${doc.url}\n- **Page Number**: ${doc.pageNumber}\n- **Text**: ${combinedText}\n`;
           });
 
           // Forward the question and context to the RAG agent
           const response = await RAGAgent.forward({ context, question });
           const answer = response.answer;
-          let references = response.references as string;
-          references = JSON.parse(references);
+          // Combine references
+          let references: string | Reference[] = response.references as string;
+          references = JSON.parse(references) as Reference[];
+          references = this.combinedReferences(references);
           // Return the answer and references
-          return  { answer, references };
+          return { answer, references };
         } catch (error) {
           console.error(`Error during agent forward: ${error}`);
           throw error;
