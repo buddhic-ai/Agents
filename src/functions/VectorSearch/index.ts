@@ -1,6 +1,7 @@
 import { AxAgent, AxAI, AxAIArgs } from '@ax-llm/ax';
 import { getQueryContext } from "./weaviate.js";
 import { PROVIDER_API_KEYS, DEBUG } from '../../config/index.js';
+import { schema, Reference } from './schema.js';
 
 const ai: AxAI = new AxAI({
   name: 'openai',
@@ -14,9 +15,10 @@ const ai: AxAI = new AxAI({
 ai.setOptions({ debug: DEBUG });
 
 const RAGsignature = `context:string[] 'Relevant information from business documents',
-  question:string 'Question about business operations'
-  -> 
-  answer:string 'Answer to the question'
+question:string 'Question about business operations'
+-> 
+answer:string 'Answer to the question',
+references: string 'references to relevant info from context in the following JSON schema:\n${JSON.stringify(schema , null, 2)}'
 `;
 
 const RAGAgent = new AxAgent(ai, {
@@ -31,6 +33,18 @@ export class VectorSearch {
 
   constructor(state: any) {
     this.state = state;
+  }
+
+  combinedReferences(references: Reference[]): Reference[] {
+    return references.reduce((acc: Reference[], ref: Reference) => {
+      const existingRef = acc.find((r: Reference) => r.fileName === ref.fileName);
+      if (existingRef) {
+        existingRef.pageNumbers = [...new Set([...existingRef.pageNumbers, ...ref.pageNumbers])];
+      } else {
+        acc.push({ ...ref });
+      }
+      return acc;
+    }, [])
   }
 
   toFunction() {
@@ -61,9 +75,13 @@ export class VectorSearch {
             return `### ${doc.filename}\n\n- **URL**: ${doc.url}\n- **Page Number**: ${doc.pageNumber}\n- **Text**: ${combinedText}\n`;
           });
 
-          // Forward the broken down question and context to the RAG agent
-          const { answer } = await RAGAgent.forward({ context, question });
-          return answer;
+          // Forward the question and context to the RAG agent
+          const response = await RAGAgent.forward({ context, question });
+          const answer = response.answer;
+          let references = response.references as string;
+          references = JSON.parse(references);
+          // Return the answer and references
+          return  { answer, references };
         } catch (error) {
           console.error(`Error during agent forward: ${error}`);
           throw error;
