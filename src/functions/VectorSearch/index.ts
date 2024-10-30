@@ -49,8 +49,8 @@ export class VectorSearch {
 
   toFunction() {
     return {
-      name: 'CompanyPolicySearch',
-      description: 'Responds with facts about company policies (one question at a time)',
+      name: 'PolicySearch',
+      description: 'Responds with facts about applicable policies (one question at a time)',
       parameters: {
         type: 'object',
         properties: {

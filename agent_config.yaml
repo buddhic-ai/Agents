@@ -2,7 +2,7 @@
 crew:
 - name: Planner
   description: Creates a plan to complete a task
-  signature: task:string "a task to be completed" -> plan:string "a step by step plan to execute the task based on company policies"
+  signature: task:string "a task to be completed" -> plan:string "a step by step plan to execute the task based on available policies"
   provider: groq
   provider_key_name: GROQ_API_KEY
   ai:
@@ -24,8 +24,8 @@ crew:
     codeExecution: true
 
 - name: Manager
-  description: Answers questions about company policies and operations
-  signature: question:string "a question from a user about company policies and operations", plan:string "a suggested plan to answer the question" -> answer:string "the answer that includes a short explanation", references:string "JSON formatted list of references to company documents including  fileName, pageNumbers and url for each reference"
+  description: Answers questions about policies and operations
+  signature: question:string "a question from a user about available policies and operations", plan:string "a suggested plan to answer the question" -> answer:string "the answer that includes a short explanation", references:string "JSON formatted list of references to relevant documents including  fileName, pageNumbers and url for each reference"
   provider: anthropic
   provider_key_name: ANTHROPIC_API_KEY
   ai:
