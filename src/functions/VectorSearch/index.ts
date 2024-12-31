@@ -21,7 +21,8 @@ answer:string 'Answer to the question',
 references: string 'references to relevant info from context in the following JSON schema:\n${JSON.stringify(schema , null, 2)}'
 `;
 
-const RAGAgent = new AxAgent(ai, {
+const RAGAgent = new AxAgent({
+  ai,
   name: 'RAGAgent',
   description: 'Answers questions about business operations.',
   signature: RAGsignature
@@ -49,8 +50,8 @@ export class VectorSearch {
 
   toFunction() {
     return {
-      name: 'PolicySearch',
-      description: 'Responds with facts about applicable policies (one question at a time)',
+      name: 'DocumentSearch',
+      description: 'Responds with facts from available documents (one question at a time)',
       parameters: {
         type: 'object',
         properties: {
@@ -76,12 +77,17 @@ export class VectorSearch {
           });
 
           // Forward the question and context to the RAG agent
-          const response = await RAGAgent.forward({ context, question });
+          const response = await RAGAgent.forward(
+            ai,
+            { context, question },
+          );
           const answer = response.answer;
+          
           // Combine references
           let references: string | Reference[] = response.references as string;
           references = JSON.parse(references) as Reference[];
           references = this.combinedReferences(references);
+          
           // Return the answer and references
           return { answer, references };
         } catch (error) {

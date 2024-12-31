@@ -1,0 +1,52 @@
+{
+  "crew": [
+    {
+      "name": "Planner",
+      "description": "Creates a plan to complete a task",
+      "signature": "task:string \"a task to be completed\" -> plan:string \"a step by step plan to complete the task\"",
+      "provider": "anthropic",
+      "providerKeyName": "ANTHROPIC_API_KEY",
+      "ai": {
+        "model": "claude-3-5-haiku-20241022",
+        "temperature": 0.3
+      },
+      "options": {
+        "debug": true
+      }
+    },
+    {
+      "name": "Calculator",
+      "description": "Solves math problems",
+      "signature": "mathProblem:string \"a math problem to be solved\" -> solution:string \"the solution to the math problem\"",
+      "provider": "google-gemini",
+      "providerKeyName": "GEMINI_API_KEY",
+      "ai": {
+        "model": "gemini-1.5-pro",
+        "temperature": 0
+      },
+      "options": {
+        "debug": true,
+        "codeExecution": true
+      }
+    },
+    {
+      "name": "Manager",
+      "description": "Answers questions by looking up relevant documents",
+      "signature": "question:string \"a question from a user about that can be answered through the material available to us\", plan:string \"a suggested plan to answer the question\" -> answer:string \"the answer that includes a short explanation\", references:string \"JSON formatted list of references to relevant documents including fileName, pageNumbers and url for each reference\"",
+      "provider": "anthropic",
+      "providerKeyName": "ANTHROPIC_API_KEY",
+      "ai": {
+        "model": "claude-3-5-sonnet-20240620",
+        "temperature": 0
+      },
+      "options": {
+        "debug": true
+      },
+      "functions": [
+        "VectorSearch",
+        "CurrentDateTime",
+        "DaysBetweenDates"
+      ]
+    }
+  ]
+} 

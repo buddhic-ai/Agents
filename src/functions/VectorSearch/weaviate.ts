@@ -95,6 +95,41 @@ interface SearchResult {
   pageNumber?: number;
 }
 
+/** 
+ * Retrieve unique filenames from doc properties in a collection.
+ * @async
+ * @param {string} clientId - The clientId to search for.
+ * @returns {Promise<Array>} The search results with the fields url, text, title and _additional.
+ * @throws {Error} When an error occurs during the search.
+ */
+const getUniqueFilenames = async (clientId: string): Promise<string[]> => {
+  try {
+    // Convert clientId to Weaviate class name
+    const className = clientIdToWeaviateClassName(clientId);
+    // Get collection
+    const collection = await getCollection(className);
+    // Retrieve unique filenames from doc properties in a collection
+    const result = await collection.query.fetchObjects({
+      returnProperties: ['filename'],
+      limit: 100
+    });
+
+    // Filter out any null/undefined filenames before creating the Set
+    const validFilenames = result.objects
+      .map(obj => obj?.properties?.filename as string)
+      .filter((filename): filename is string => 
+        filename != null && filename !== ''
+      );
+
+    // Create Set of unique filenames and convert back to array
+    const uniqueFilenames = [...new Set(validFilenames)];
+    return uniqueFilenames;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 /**
  * Retrieve context from vector search.
  * @async
@@ -173,4 +208,5 @@ const getQueryContext = async (clientId: string, message: string): Promise<Searc
 
 export {
   getQueryContext,
+  getUniqueFilenames
 }
