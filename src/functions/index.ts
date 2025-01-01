@@ -1,16 +1,19 @@
-import { AxFunction } from '@ax-llm/ax';
-import { CurrentDateTime, DaysBetweenDates } from './dateTime.js';
 import { VectorSearch } from './VectorSearch/index.js';
+import { DocumentList } from './DocumentList/index.js';
+import { 
+  AxCrewFunctions as ImportedAxCrewFunctions, 
+  FunctionRegistryType 
+} from '@amitdeshmukh/ax-crew';
 
-// FunctionRegistryType
-type FunctionRegistryType = {
-  [key: string]: AxFunction | { new(state: Record<string, any>): { toFunction: () => AxFunction } };
-};
 
+// Merge imported functions with your custom functions
 const AxCrewFunctions = {
-  CurrentDateTime,
-  DaysBetweenDates,
-  VectorSearch
+  ...ImportedAxCrewFunctions,
+  VectorSearch,
+  DocumentList
 };
 
-export { AxCrewFunctions, FunctionRegistryType };
+export { 
+  AxCrewFunctions, 
+  FunctionRegistryType 
+};
