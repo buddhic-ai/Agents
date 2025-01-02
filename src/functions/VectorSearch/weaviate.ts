@@ -147,19 +147,17 @@ const getQueryContext = async (clientId: string, message: string): Promise<Searc
   try {
     // Convert clientId to Weaviate class name
     const className = clientIdToWeaviateClassName(clientId);
-
-    // Obtain embeddings for the message
-    const vector = await generateEmbeddings(message);
-
     // Get collection
     const collection = await getCollection(className);
-
     // Retrieve class schema and extract property names
     const collectionConfig = await getCollectionConfig(className);
     if (!collectionConfig) {
       throw new Error(`Collection config not found for Weaviate Classname ${className}`);
     }
     let fields = getPropertyNames(collectionConfig);
+
+    // Obtain embeddings for the message
+    const vector = await generateEmbeddings(message);
 
     // Retrieve relevant context from weaviate
     const result = await collection.query.nearVector(vector, {
