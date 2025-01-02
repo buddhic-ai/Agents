@@ -51,10 +51,15 @@ const getCollection = async (className: string): Promise<Collection> => {
  * @param {string} className - The name of the class to fetch the schema for.
  * @returns {Promise} The response from the Weaviate server.
  */
-const getCollectionConfig = async (className: string): Promise<CollectionConfig> => {
-  const collection = await getCollection(className);
-  const collectionConfig= await collection.config.get();
-  return collectionConfig;
+const getCollectionConfig = async (className: string): Promise<CollectionConfig | null> => {
+  try {
+    const collection = await getCollection(className);
+    const collectionConfig = await collection.config.get();
+    return collectionConfig;
+  } catch (error) {
+    console.error(`Error getting collection config for Weaviate Classname ${className}`);
+    return null;
+  }
 }
 
 /**
@@ -151,6 +156,9 @@ const getQueryContext = async (clientId: string, message: string): Promise<Searc
 
     // Retrieve class schema and extract property names
     const collectionConfig = await getCollectionConfig(className);
+    if (!collectionConfig) {
+      throw new Error(`Collection config not found for Weaviate Classname ${className}`);
+    }
     let fields = getPropertyNames(collectionConfig);
 
     // Retrieve relevant context from weaviate
@@ -202,7 +210,7 @@ const getQueryContext = async (clientId: string, message: string): Promise<Searc
 
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }
 
