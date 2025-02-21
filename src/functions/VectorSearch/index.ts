@@ -1,18 +1,7 @@
-import { AxAgent, AxAI, AxAIArgs } from '@ax-llm/ax';
+import { AxCrew } from '@amitdeshmukh/ax-crew';
 import { getQueryContext } from "./weaviate.js";
-import { PROVIDER_API_KEYS, DEBUG } from '../../config/index.js';
+import { DEBUG } from '../../config/index.js';
 import { schema, Reference } from './schema.js';
-
-const ai: AxAI = new AxAI({
-  name: 'openai',
-  apiKey: PROVIDER_API_KEYS['OPENAI_API_KEY'] || '',
-  config: {
-    model: 'gpt-4o-mini',
-    temperature: 0,
-  }
-} as AxAIArgs);
-
-ai.setOptions({ debug: DEBUG });
 
 const RAGsignature = `context:string[] 'Relevant information from business documents',
 question:string 'Question about business operations'
@@ -21,13 +10,26 @@ answer:string 'Answer to the question',
 references: string 'references to relevant info from context in the following JSON schema:\n${JSON.stringify(schema , null, 2)}'
 `;
 
-const RAGAgent = new AxAgent({
-  ai,
-  name: 'RAGAgent',
-  description: 'Answers questions about business operations.',
-  signature: RAGsignature
-});
-
+const config = {
+  crew: [
+    {
+      name: 'RAGAgent',
+      description: 'Answers questions about business operations. Only stick to the context provided.',
+      signature: RAGsignature,
+      provider: 'openai',
+      providerKeyName: 'OPENAI_API_KEY',
+      ai: {
+        model: "gpt-4o-mini",
+        temperature: 0,
+        reasoningEffort: "low",
+      },
+      options: {
+        debug: DEBUG,
+        stream: false
+      },
+    }
+  ]
+}
 
 export class VectorSearch {
   state: any;
@@ -51,7 +53,7 @@ export class VectorSearch {
   toFunction() {
     return {
       name: 'DocumentSearch',
-      description: 'Responds with facts from available documents (one question at a time)',
+      description: 'Responds with facts from available documents',
       parameters: {
         type: 'object',
         properties: {
@@ -67,6 +69,20 @@ export class VectorSearch {
           const { question }  = args;
           const clientId = this.state.get('clientId');
 
+          if (!clientId) {
+            throw new Error('Client ID is required');
+          }
+
+          // Initialize the crew and agent
+          const crew = new AxCrew(config);
+          crew.addAgentsToCrew(['RAGAgent']);          
+          const ragAgent = crew.agents?.get('RAGAgent');
+          
+          if (!ragAgent) {
+            console.error('Debug: RAGAgent initialization failed. Config used:', config.crew[0]);
+            throw new Error('RAGAgent not initialized');
+          }
+
           // Get the context for the question
           let context: any[] = await getQueryContext(clientId, question) || [];
 
@@ -76,11 +92,11 @@ export class VectorSearch {
             return `### ${doc.filename}\n\n- **File ID**: ${doc.fileId}\n- **URL**: ${doc.url}\n- **Page Number**: ${doc.pageNumber}\n- **Text**: ${combinedText}\n`;
           });
 
-          // Forward the question and context to the RAG agent
-          const response = await RAGAgent.forward(
-            ai,
-            { context, question },
-          );
+          // Forward the question and context to the agent
+          const response = await ragAgent.forward({ 
+            context,
+            question,
+          });
           const answer = response.answer;
           
           // Combine references
