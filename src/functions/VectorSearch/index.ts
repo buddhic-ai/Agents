@@ -1,4 +1,5 @@
 import { AxCrew } from '@amitdeshmukh/ax-crew';
+import type { AgentConfig } from '@amitdeshmukh/ax-crew';
 import { getQueryContext } from "./weaviate.js";
 import { DEBUG } from '../../config/index.js';
 import { schema, Reference } from './schema.js';
@@ -10,18 +11,17 @@ answer:string 'Answer to the question',
 references: string 'references to relevant info from context in the following JSON schema:\n${JSON.stringify(schema , null, 2)}'
 `;
 
-const config = {
+const config: { crew: AgentConfig[] } = {
   crew: [
     {
       name: 'RAGAgent',
       description: 'Answers questions about business operations. Only stick to the context provided.',
       signature: RAGsignature,
-      provider: 'openai',
+      provider: 'openai' as const,
       providerKeyName: 'OPENAI_API_KEY',
       ai: {
         model: "gpt-4o-mini",
         temperature: 0,
-        reasoningEffort: "low",
       },
       options: {
         debug: DEBUG,
@@ -75,7 +75,7 @@ export class VectorSearch {
 
           // Initialize the crew and agent
           const crew = new AxCrew(config);
-          crew.addAgentsToCrew(['RAGAgent']);          
+          await crew.addAgentsToCrew(['RAGAgent']);          
           const ragAgent = crew.agents?.get('RAGAgent');
           
           if (!ragAgent) {
