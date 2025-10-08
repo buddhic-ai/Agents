@@ -1,6 +1,6 @@
 {
   "name": "@buddhic-ai/agents",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Buddhic AI Agent module",
   "homepage": "https://github.com/buddhic-ai/Agents#readme",
   "bugs": {
@@ -21,8 +21,8 @@
   "dependencies": {
     "@amitdeshmukh/ax-crew": "4.1.1",
     "@amitdeshmukh/gcp-crypto": "^1.6.0",
-    "@ax-llm/ax": "^14.0.16",
-    "@ax-llm/ax-tools": "14.0.6",
+    "@ax-llm/ax": "14.0.16",
+    "@ax-llm/ax-tools": "14.0.16",
     "@xenova/transformers": "^2.17.2",
     "cryptr": "^6.3.0",
     "dotenv": "^16.4.5",

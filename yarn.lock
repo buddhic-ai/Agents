@@ -21,14 +21,14 @@
     "@google-cloud/kms" "^4.0.1"
     "@google-cloud/secret-manager" "^5.0.1"
 
-"@ax-llm/ax-tools@14.0.6":
-  version "14.0.6"
-  resolved "https://registry.yarnpkg.com/@ax-llm/ax-tools/-/ax-tools-14.0.6.tgz#f8fe39cc4da6dc8be67982f67d7393cf30e44fcc"
-  integrity sha512-RwBGkB08hyEAWmdVk1KbVVu2PMHNHtGWbfsfn8nMtO57mTV1R7A9zx1iEC7WKnOOhbF5DncZ+sBLvCYEK8ZVeg==
+"@ax-llm/ax-tools@14.0.16":
+  version "14.0.16"
+  resolved "https://registry.yarnpkg.com/@ax-llm/ax-tools/-/ax-tools-14.0.16.tgz#14e081c606a498f8c5351ed3faf3282772e41287"
+  integrity sha512-8AMWshvWrc78BHl8Juzdn1ETWJxQw82CR4WCQlx8K6DgPvwU8JlTnL46DSrH2g/7wDmYauuNLjmnncBVIJSdBA==
   dependencies:
-    "@ax-llm/ax" "14.0.6"
+    "@ax-llm/ax" "14.0.16"
 
-"@ax-llm/ax@14.0.6", "@ax-llm/ax@^14.0.16":
+"@ax-llm/ax@14.0.16":
   version "14.0.16"
   resolved "https://registry.yarnpkg.com/@ax-llm/ax/-/ax-14.0.16.tgz#a3f2fb8ed1efb05725a9263df6c6fd8e7c46332b"
   integrity sha512-S/L2J1JJRcoVCCm0elNNrTw890nKlpeWJ8zxKSDh+SqgCfTK1YGFV/gX63/nn4T2NkHKqQTlS0y6Jqr7cwFfmg==
