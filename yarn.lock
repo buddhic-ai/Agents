@@ -2,11 +2,12 @@
 # yarn lockfile v1
 
 
-"@amitdeshmukh/ax-crew@^3.6.0":
-  version "3.6.0"
-  resolved "https://registry.npmjs.org/@amitdeshmukh/ax-crew/-/ax-crew-3.6.0.tgz"
-  integrity sha512-3rtrRWj/otAqYQ2sABcr4CODsJ15aKYhEJZEg3TSLQbW7doSpeCPIPk2ogCbe8ZdHPB9odtgsztTqFRj975dMA==
+"@amitdeshmukh/ax-crew@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@amitdeshmukh/ax-crew/-/ax-crew-4.1.1.tgz#54cfd4ea84b6f516d7c5340af5ccc43534803c01"
+  integrity sha512-ht45iWYp7Tb9R1DUp73RIApbviByb/L0qACXuw2ZsboTdJmu1LGo2q2i7JraDGN5e1b1EDPQAtER7EXj2JglJg==
   dependencies:
+    big.js "^7.0.1"
     decimal.js "^10.5.0"
     dotenv "^16.4.5"
     upgrade "^1.1.0"
@@ -20,14 +21,20 @@
     "@google-cloud/kms" "^4.0.1"
     "@google-cloud/secret-manager" "^5.0.1"
 
-"@ax-llm/ax@^11.0.21":
-  version "11.0.21"
-  resolved "https://registry.npmjs.org/@ax-llm/ax/-/ax-11.0.21.tgz"
-  integrity sha512-tPo0nXBh/ULo8w+9WC7p0mfy+DG331xVeh+y/TUON5/79jWdv+n5g9/OWx52zW2ckF32SpmZkYHKVIMBVewJLQ==
+"@ax-llm/ax-tools@14.0.6":
+  version "14.0.6"
+  resolved "https://registry.yarnpkg.com/@ax-llm/ax-tools/-/ax-tools-14.0.6.tgz#f8fe39cc4da6dc8be67982f67d7393cf30e44fcc"
+  integrity sha512-RwBGkB08hyEAWmdVk1KbVVu2PMHNHtGWbfsfn8nMtO57mTV1R7A9zx1iEC7WKnOOhbF5DncZ+sBLvCYEK8ZVeg==
+  dependencies:
+    "@ax-llm/ax" "14.0.6"
+
+"@ax-llm/ax@14.0.6", "@ax-llm/ax@^14.0.16":
+  version "14.0.16"
+  resolved "https://registry.yarnpkg.com/@ax-llm/ax/-/ax-14.0.16.tgz#a3f2fb8ed1efb05725a9263df6c6fd8e7c46332b"
+  integrity sha512-S/L2J1JJRcoVCCm0elNNrTw890nKlpeWJ8zxKSDh+SqgCfTK1YGFV/gX63/nn4T2NkHKqQTlS0y6Jqr7cwFfmg==
   dependencies:
     "@opentelemetry/api" "^1.9.0"
-    google-auth-library "^9.15.1"
-    moment-timezone "^0.5.47"
+    dayjs "^1.11.13"
 
 "@google-cloud/kms@^4.0.1":
   version "4.5.0"
@@ -266,6 +273,11 @@ base64-js@^1.3.0, base64-js@^1.3.1:
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
+big.js@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/big.js/-/big.js-7.0.1.tgz#c537c649ec6ea11d1306723d13c096ba199aadc4"
+  integrity sha512-iFgV784tD8kq4ccF1xtNMZnXeZzVuXWWM+ERFzKQjv+A5G9HC8CY3DuV45vgzFFcW+u2tIvmF95+AzWgs6BjCg==
+
 bignumber.js@^9.0.0:
   version "9.1.2"
   resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.1.2.tgz"
@@ -353,6 +365,11 @@ cryptr@^6.3.0:
   version "6.3.0"
   resolved "https://registry.npmjs.org/cryptr/-/cryptr-6.3.0.tgz"
   integrity sha512-TA4byAuorT8qooU9H8YJhBwnqD151i1rcauHfJ3Divg6HmukHB2AYMp0hmjv2873J2alr4t15QqC7zAnWFrtfQ==
+
+dayjs@^1.11.13:
+  version "1.11.18"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.18.tgz#835fa712aac52ab9dec8b1494098774ed7070a11"
+  integrity sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==
 
 debug@4:
   version "4.4.0"
@@ -496,7 +513,7 @@ github-from-package@0.0.0:
   resolved "https://registry.npmjs.org/github-from-package/-/github-from-package-0.0.0.tgz"
   integrity sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==
 
-google-auth-library@^9.15.1, google-auth-library@^9.3.0:
+google-auth-library@^9.3.0:
   version "9.15.1"
   resolved "https://registry.npmjs.org/google-auth-library/-/google-auth-library-9.15.1.tgz"
   integrity sha512-Jb6Z0+nvECVz+2lzSMt9u98UsoakXxA2HGHMCxh+so3n90XgYWkq5dur19JAJV7ONiJY22yBTyJB1TSkvPq9Ng==
@@ -672,18 +689,6 @@ mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"
   resolved "https://registry.npmjs.org/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz"
   integrity sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==
-
-moment-timezone@^0.5.47:
-  version "0.5.47"
-  resolved "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.47.tgz"
-  integrity sha512-UbNt/JAWS0m/NJOebR0QMRHBk0hu03r5dx9GK8Cs0AS3I81yDcOc9k+DytPItgVvBP7J6Mf6U2n3BPAacAV9oA==
-  dependencies:
-    moment "^2.29.4"
-
-moment@^2.29.4:
-  version "2.30.1"
-  resolved "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
-  integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
 
 ms@^2.1.3:
   version "2.1.3"
